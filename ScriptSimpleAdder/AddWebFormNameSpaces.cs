@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Text;
 using System.Text.Json;
 using System.Text.RegularExpressions;
@@ -20,6 +21,57 @@ namespace ConsoleApp1
             return input;
         }
 
+        public static string ConvertToPascalCase(string input)
+        {
+            if (string.IsNullOrWhiteSpace(input))
+                return string.Empty;
+
+            // Преобразуем первый символ в заглавный и остальные в строчные
+            return char.ToUpper(input[0]) + input.Substring(1).ToLower();
+        }
+
+        public static string FindFileIgnoreCase(string filePath)
+        {
+            if (string.IsNullOrWhiteSpace(filePath))
+                return null;
+
+            string directory = Path.GetDirectoryName(filePath);
+            string fileName = Path.GetFileName(filePath);
+
+            if (!Directory.Exists(directory))
+                return null;
+
+            // Перебираем файлы в каталоге и возвращаем первое совпадение без учета регистра
+            return Directory.EnumerateFiles(directory)
+                            .FirstOrDefault(f => string.Equals(Path.GetFileName(f), fileName, StringComparison.OrdinalIgnoreCase));
+        }
+
+
+        public static string GetClassName(string filePath)
+        {
+            
+            if (!File.Exists(filePath))
+            {
+                filePath = FindFileIgnoreCase(filePath);
+                if (!File.Exists(filePath)) return null;
+            }
+
+            // Считываем содержимое файла
+            string fileContent = File.ReadAllText(filePath);
+
+            // Регулярное выражение для поиска имени класса
+            string pattern = @"\bclass\s+([a-zA-Z_][a-zA-Z0-9_]*)";
+            Match match = Regex.Match(fileContent, pattern);
+
+            if (match.Success)
+            {
+                // Группа 1 содержит имя класса
+                return match.Groups[1].Value;
+            }
+
+            return null; // Если имя класса не найдено
+        }
+
         public static void AddNameSpacesToFiles(string projectPath)
         {
             projectPath = EnsureTrailingSlash(projectPath);
@@ -28,15 +80,16 @@ namespace ConsoleApp1
             foreach (var file in Directory.GetFiles(projectPath, "*.aspx",
                          SearchOption.AllDirectories))
             {
-                var className = Path.GetFileNameWithoutExtension(file);
+                var className = GetClassName(file+".cs");
+                if (className == null) continue;
                
-                className = JsonNamingPolicy.SnakeCaseUpper.ConvertName(className.ToLower() == "default" ? "_Default" : className);
-                className = className.ToLower() == "new" ? "_New" : className;
+                //className = ConvertToPascalCase(className.ToLower() == "default" ? "_Default" : className);
+                //className = className.ToLower() == "new" ? "_New" : className;
                 var namespaceName = $"BarsWeb";
-                var dir = Path.GetDirectoryName(file) ?? string.Empty;
+                var dir = ConvertToPascalCase( Path.GetDirectoryName(file) ?? string.Empty);
                 var prefLen = projectPath.Length;
                 if (dir.Length > prefLen)
-                    namespaceName = JsonNamingPolicy.CamelCase.ConvertName($"{namespaceName}.{dir.Substring(prefLen).Replace('\\', '/').Replace('/', '.').Replace("-", "")}");
+                    namespaceName = $"{namespaceName}.{ConvertToPascalCase(dir.Substring(prefLen).Replace('\\', '/').Replace('/', '.').Replace("-", ""))}";
 
                 Encoding encoding = GetFileEncoding(file);
 

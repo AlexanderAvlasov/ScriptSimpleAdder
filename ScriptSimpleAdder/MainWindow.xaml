@@ -51,7 +51,7 @@
                         <ColumnDefinition Width="122*"/>
                         <ColumnDefinition Width="1085*"/>
                     </Grid.ColumnDefinitions>
-                    <TextBox x:Name="ProjectPath_2" HorizontalAlignment="Left" Margin="32,54,0,0" Text="F:\nbu\NBU_CHROME_REDESIGN\abs_cnbu" TextWrapping="Wrap" VerticalAlignment="Top" Width="311" Grid.ColumnSpan="5"/>
+                    <TextBox x:Name="ProjectPath_2" HorizontalAlignment="Left" Margin="32,54,0,0" Text="F:\nbu\NBU_SEP4_WEB\abs_cnbu\web\barsroot" TextWrapping="Wrap" VerticalAlignment="Top" Width="311" Grid.ColumnSpan="5"/>
                     <Label Content="ProjectPath" HorizontalAlignment="Left" Margin="0,23,0,0" VerticalAlignment="Top" Grid.Column="1" Grid.ColumnSpan="2"/>
                     <Button x:Name="folderSelectBtn2" Content="Open project path&#xA;" HorizontalAlignment="Left" Margin="167,45,0,0" VerticalAlignment="Top" Click="Button_Click" RenderTransformOrigin="0.436,-2.893" Grid.Column="4"/>
                     <Button Content="Добавление  CodeFile=&quot;addagr.aspx.cs&quot;&#xD;&#xA;после конвертации в Web Aplication" HorizontalAlignment="Left" Margin="32,120,0,0" VerticalAlignment="Top" Grid.ColumnSpan="5" Height="48" Width="214" Click="Button_Click_3"/>
