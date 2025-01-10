@@ -19,6 +19,9 @@ using System.Linq;
 using AngleSharp;
 using AngleSharp.Html.Parser;
 using AngleSharp.Html.Dom;
+using Microsoft.WindowsAPICodePack.Dialogs;
+using AngleSharp.Dom;
+using ConsoleApp1;
 
 namespace ScriptSimpleAdder
 {
@@ -49,10 +52,6 @@ namespace ScriptSimpleAdder
 
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
         string projectPath;
         List<string> skipFiles;
         private async void Button_Click_1(object sender, RoutedEventArgs e)
@@ -264,6 +263,17 @@ namespace ScriptSimpleAdder
             return files;
         }
 
+        public async Task<Match> GetRegexpResultFromFileAsync(string file, string regexStr) {
+            using (StreamReader sr = new StreamReader(file))
+            {
+                string content = await sr.ReadToEndAsync();
+                var regex = new Regex(regexStr, RegexOptions.IgnoreCase);
+               
+                return regex.Match(content);
+            }
+        }
+
+
         public async Task<List<string>> GetFileFiltredByRegexAsync(string fileExt, string regExp) {
             List<string> filesResult = new List<string>();
             var files = Directory.GetFiles(projectPath, fileExt, SearchOption.AllDirectories);
@@ -282,6 +292,66 @@ namespace ScriptSimpleAdder
         private void Button_Click_2(object sender, RoutedEventArgs e)
         {
             output.Clear();
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            var dialog = new CommonOpenFileDialog
+            {
+                IsFolderPicker = true, // Указываем, что выбираем папку
+                Title = "Выберите папку"
+            };
+
+            if (dialog.ShowDialog() == CommonFileDialogResult.Ok)
+            {
+                ProjectPath_2.Text = dialog.FileName; // Путь к выбранной папке
+                
+            }
+        }
+
+        private async void Button_Click_3(object sender, RoutedEventArgs e)
+        {
+            projectPath = ProjectPath_2.Text;
+            var toChange = await GetFiltredFilesAsync("*.aspx", "Codebehind=[\"].*[\"]");
+            //Пишем файлы что меняем
+            AppendAllStrings(ProjectPath_2_Copy, toChange);
+
+            foreach (var filePath in toChange)
+            {
+                var strFromFile = await GetRegexpResultFromFileAsync(filePath, "Codebehind=[\"].*[\"]");
+                Regex pattern = new Regex(@"Codebehind=""([^""]+)""");
+                var codeBehindFile  = Regex.Match(strFromFile.Value, @"""([^""]+)""", RegexOptions.IgnoreCase).Value;
+
+                var fileEncodig = GetFileEncoding(filePath);
+                var aspxPage = File.ReadAllText(filePath, fileEncodig);
+                StringBuilder result = new StringBuilder(aspxPage);
+                result.Insert(strFromFile.Index+strFromFile.Length, $" CodeFile=\"{codeBehindFile.Trim('"')}\" ");
+                WriteToFile(result, filePath, fileEncodig);
+            }
+            
+        }
+
+        public void WriteToFile(StringBuilder result, string filePath, Encoding fileEncodig) {
+           
+
+
+            using (StreamWriter sr = new StreamWriter(new FileStream(filePath, FileMode.Create, FileAccess.Write), fileEncodig))
+            {
+                sr.Write(result);
+            }
+        }
+
+
+        public void AppendAllStrings(TextBox tb, List<string> strList) { 
+            foreach (var str in strList)
+            {
+                ProjectPath_2_Copy.AppendLine(str);
+            }
+        }
+
+        private void Button_Click_4(object sender, RoutedEventArgs e)
+        {
+            AddWebFormNameSpaces.AddNameSpacesToFiles(ProjectPath_2.Text);
         }
     }
 }

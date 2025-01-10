@@ -7,15 +7,59 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="788" Width="1285">
     <Grid Margin="0,10,0,29" RenderTransformOrigin="0.53,0.514">
-        <Label Content="Reg expression to find&#xD;&#xA;" HorizontalAlignment="Left" Margin="44,66,0,0" VerticalAlignment="Top" Width="177"/>
-        <Button Content="Run&#xD;&#xA;" HorizontalAlignment="Left" Margin="44,688,0,0" VerticalAlignment="Top" Width="74" Click="Button_Click_1"/>
-        <TextBox x:Name="searchExp" HorizontalAlignment="Left" Margin="44,108,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="210" Height="31" TextChanged="TextBox_TextChanged" Text="showModalDialog"/>
-        <TextBox x:Name="scriptsToAdd" HorizontalAlignment="Left" Margin="44,224,0,0" Text="&lt;link href=&quot;\barsroot\Scripts\Chrome\chrome.css&quot; type=&quot;text/css&quot; rel=&quot;stylesheet&quot;/&gt;&#xA;&lt;link href=&quot;/barsroot/Content/Themes/ModernUI/css/jquery-ui.css?v1.0.0&quot; rel=&quot;stylesheet&quot; /&gt;&#xA;&lt;script type=&quot;text/javascript&quot; language=&quot;javascript&quot; src=&quot;/Common/jquery/jquery.min.js&quot;&gt;&lt;/script&gt;&#xA;&lt;script type=&quot;text/javascript&quot; language=&quot;javascript&quot; src=&quot;/barsroot/Scripts/jquery/jquery-ui.js?v1.0.0&quot;&gt;&lt;/script&gt;&#xA;&lt;script type=&quot;text/javascript&quot; language=&quot;javascript&quot; src=&quot;/barsroot/Scripts/bootstrap/bootstrap.js?v1.0.0&quot;&gt;&lt;/script&gt;&#xA;&lt;script type=&quot;text/javascript&quot; src=&quot;/barsroot/Scripts/Chrome/chrome.utl.js?v1.0.0&quot;&gt;&lt;/script&gt;" TextWrapping="Wrap" VerticalAlignment="Top" Width="631" Height="180"/>
-        <Button Content="Open project path&#xD;&#xA;" HorizontalAlignment="Left" Margin="360,165,0,0" VerticalAlignment="Top" Click="Button_Click"/>
-        <TextBox x:Name="ProjectPath" HorizontalAlignment="Left" Margin="44,168,0,0" Text="F:\nbu\NBU_CHROME_REDESIGN\abs_cnbu" TextWrapping="Wrap" VerticalAlignment="Top" Width="311"/>
-        <TextBox x:Name="output" HorizontalAlignment="Left" Margin="44,441,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="456" Height="212" ScrollViewer.CanContentScroll="True" />
-        <Button Content="Clear&#xD;&#xA;" HorizontalAlignment="Left" Margin="132,691,0,6" Click="Button_Click_2"/>
-        <TextBox x:Name="SkipTextBox" HorizontalAlignment="Left" Margin="360,19,0,0" TextWrapping="Wrap" Text="F:\nbu\NBU_CHROME_REDESIGN\abs_cnbu\web\barsroot\clientregister\additionalFuncs.js&#xD;&#xA;F:\nbu\NBU_CHROME_REDESIGN\abs_cnbu\web\barsroot\clientregister\Dialogs\dialogfulladr.aspx&#xD;&#xA;F:\nbu\NBU_CHROME_REDESIGN\abs_cnbu\web\barsroot\clientregister\JScriptFortab_dop_inf.js&#xD;&#xA;F:\nbu\NBU_CHROME_REDESIGN\abs_cnbu\web\barsroot\clientregister\tab_dop_inf.aspx&#xD;&#xA;F:\nbu\NBU_CHROME_REDESIGN\abs_cnbu\web\barsroot\deposit\AddRegular.aspx&#xD;&#xA;F:\nbu\NBU_CHROME_REDESIGN\abs_cnbu\web\barsroot\Scripts\crypto\barsCrypto.js&#xD;&#xA;F:\nbu\NBU_CHROME_REDESIGN\abs_cnbu\web\barsroot\Scripts\kendo\kendo.all.js&#xD;&#xA;F:\nbu\NBU_CHROME_REDESIGN\abs_cnbu\web\barsroot\Scripts\ObjSign.js&#xD;&#xA;F:\nbu\NBU_CHROME_REDESIGN\abs_cnbu\web\Common\WebGrid\Grid2005.js" VerticalAlignment="Top" Width="464" Height="135"/>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="699*"/>
+            <ColumnDefinition Width="586*"/>
+        </Grid.ColumnDefinitions>
+        <TabControl Grid.ColumnSpan="2" Margin="0,0,0,-67">
+            <TabItem Header="Chrome Utils" Margin="-2,-2,-36,0">
+                <Grid Background="#FFE5E5E5" Height="791">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="14*"/>
+                        <ColumnDefinition Width="16*"/>
+                        <ColumnDefinition Width="52*"/>
+                        <ColumnDefinition Width="76*"/>
+                        <ColumnDefinition Width="725*"/>
+                        <ColumnDefinition Width="396*"/>
+                    </Grid.ColumnDefinitions>
+                    <Label Content="Reg expression to find&#xA;" HorizontalAlignment="Left" Margin="14,66,0,0" VerticalAlignment="Top" Width="177" Grid.Column="2" Grid.ColumnSpan="3"/>
+                    <Button Content="Run&#xA;" HorizontalAlignment="Left" Margin="44,631,0,0" VerticalAlignment="Top" Width="74" Click="Button_Click_1" Grid.Column="2" Grid.ColumnSpan="2"/>
+                    <TextBox x:Name="searchExp" HorizontalAlignment="Left" Margin="14,108,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="210" Height="31" TextChanged="TextBox_TextChanged" Text="showModalDialog" Grid.Column="2" Grid.ColumnSpan="3"/>
+                    <TextBox x:Name="scriptsToAdd" HorizontalAlignment="Left" Margin="14,224,0,0" Text="&lt;link href=&quot;\barsroot\Scripts\Chrome\chrome.css&quot; type=&quot;text/css&quot; rel=&quot;stylesheet&quot;/&gt;&#xA;&lt;link href=&quot;/barsroot/Content/Themes/ModernUI/css/jquery-ui.css?v1.0.0&quot; rel=&quot;stylesheet&quot; /&gt;&#xA;&lt;script type=&quot;text/javascript&quot; language=&quot;javascript&quot; src=&quot;/Common/jquery/jquery.min.js&quot;&gt;&lt;/script&gt;&#xA;&lt;script type=&quot;text/javascript&quot; language=&quot;javascript&quot; src=&quot;/barsroot/Scripts/jquery/jquery-ui.js?v1.0.0&quot;&gt;&lt;/script&gt;&#xA;&lt;script type=&quot;text/javascript&quot; language=&quot;javascript&quot; src=&quot;/barsroot/Scripts/bootstrap/bootstrap.js?v1.0.0&quot;&gt;&lt;/script&gt;&#xA;&lt;script type=&quot;text/javascript&quot; src=&quot;/barsroot/Scripts/Chrome/chrome.utl.js?v1.0.0&quot;&gt;&lt;/script&gt;" TextWrapping="Wrap" VerticalAlignment="Top" Width="631" Height="180" Grid.Column="2" Grid.ColumnSpan="3"/>
+                    <Button Content="Open project path&#xA;" HorizontalAlignment="Left" Margin="202,165,0,0" VerticalAlignment="Top" Click="Button_Click" Grid.Column="4"/>
+                    <TextBox x:Name="ProjectPath" HorizontalAlignment="Left" Margin="14,168,0,0" Text="F:\nbu\NBU_SEP4_WEB\abs_cnbu\web\barsroot" TextWrapping="Wrap" VerticalAlignment="Top" Width="311" Grid.Column="2" Grid.ColumnSpan="3"/>
+                    <TextBox x:Name="output" HorizontalAlignment="Left" Margin="14,409,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="456" Height="212" ScrollViewer.CanContentScroll="True" Grid.Column="2" Grid.ColumnSpan="3" />
+                    <Button Content="Clear&#xA;" HorizontalAlignment="Left" Margin="83,632,0,124" Click="Button_Click_2" Grid.Column="4" Width="220">
+                        <UIElement.RenderTransform>
+                            <TransformGroup>
+                                <ScaleTransform/>
+                                <SkewTransform/>
+                                <RotateTransform/>
+                                <TranslateTransform/>
+                            </TransformGroup>
+                        </UIElement.RenderTransform>
+                    </Button>
+                    <TextBox x:Name="SkipTextBox" HorizontalAlignment="Left" Margin="202,19,0,0" TextWrapping="Wrap" Text="F:\nbu\NBU_CHROME_REDESIGN\abs_cnbu\web\barsroot\clientregister\additionalFuncs.js&#xA;F:\nbu\NBU_CHROME_REDESIGN\abs_cnbu\web\barsroot\clientregister\Dialogs\dialogfulladr.aspx&#xA;F:\nbu\NBU_CHROME_REDESIGN\abs_cnbu\web\barsroot\clientregister\JScriptFortab_dop_inf.js&#xA;F:\nbu\NBU_CHROME_REDESIGN\abs_cnbu\web\barsroot\clientregister\tab_dop_inf.aspx&#xA;F:\nbu\NBU_CHROME_REDESIGN\abs_cnbu\web\barsroot\deposit\AddRegular.aspx&#xA;F:\nbu\NBU_CHROME_REDESIGN\abs_cnbu\web\barsroot\Scripts\crypto\barsCrypto.js&#xA;F:\nbu\NBU_CHROME_REDESIGN\abs_cnbu\web\barsroot\Scripts\kendo\kendo.all.js&#xA;F:\nbu\NBU_CHROME_REDESIGN\abs_cnbu\web\barsroot\Scripts\ObjSign.js&#xA;F:\nbu\NBU_CHROME_REDESIGN\abs_cnbu\web\Common\WebGrid\Grid2005.js" VerticalAlignment="Top" Width="464" Height="135" Grid.Column="4"/>
+                </Grid>
+            </TabItem>
+            <TabItem Header="CompiledMfo" Margin="29,-2,-88,0">
+                <Grid Background="#FFE5E5E5">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="60*"/>
+                        <ColumnDefinition Width="3*"/>
+                        <ColumnDefinition Width="9*"/>
+                        <ColumnDefinition Width="122*"/>
+                        <ColumnDefinition Width="1085*"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBox x:Name="ProjectPath_2" HorizontalAlignment="Left" Margin="32,54,0,0" Text="F:\nbu\NBU_CHROME_REDESIGN\abs_cnbu" TextWrapping="Wrap" VerticalAlignment="Top" Width="311" Grid.ColumnSpan="5"/>
+                    <Label Content="ProjectPath" HorizontalAlignment="Left" Margin="0,23,0,0" VerticalAlignment="Top" Grid.Column="1" Grid.ColumnSpan="2"/>
+                    <Button x:Name="folderSelectBtn2" Content="Open project path&#xA;" HorizontalAlignment="Left" Margin="167,45,0,0" VerticalAlignment="Top" Click="Button_Click" RenderTransformOrigin="0.436,-2.893" Grid.Column="4"/>
+                    <Button Content="Добавление  CodeFile=&quot;addagr.aspx.cs&quot;&#xD;&#xA;после конвертации в Web Aplication" HorizontalAlignment="Left" Margin="32,120,0,0" VerticalAlignment="Top" Grid.ColumnSpan="5" Height="48" Width="214" Click="Button_Click_3"/>
+                    <TextBox x:Name="ProjectPath_2_Copy" HorizontalAlignment="Left" Margin="104,105,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="329" Grid.Column="4" Height="78"/>
+                    <Button Content="Добавление неймспейсов &#xD;&#xA;к веб формам" HorizontalAlignment="Left" Margin="38,268,0,0" VerticalAlignment="Top" Grid.ColumnSpan="5" Height="48" Width="202" ButtonBase.Click="Button_Click_4"/>
+                </Grid>
+            </TabItem>
+        </TabControl>
 
     </Grid>
 </Window>
