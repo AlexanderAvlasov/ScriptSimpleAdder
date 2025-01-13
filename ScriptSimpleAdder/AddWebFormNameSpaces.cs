@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ScriptSimpleAdder;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -72,7 +73,7 @@ namespace ConsoleApp1
             return null; // Если имя класса не найдено
         }
 
-        public static void AddNameSpacesToFiles(string projectPath)
+        public static async void AddNameSpacesToFiles(string projectPath)
         {
             projectPath = EnsureTrailingSlash(projectPath);
             Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
@@ -82,6 +83,7 @@ namespace ConsoleApp1
             {
                 var className = GetClassName(file+".cs");
                 if (className == null) continue;
+
                
                 //className = ConvertToPascalCase(className.ToLower() == "default" ? "_Default" : className);
                 //className = className.ToLower() == "new" ? "_New" : className;
@@ -89,8 +91,15 @@ namespace ConsoleApp1
                 var dir = ConvertToPascalCase( Path.GetDirectoryName(file) ?? string.Empty);
                 var prefLen = projectPath.Length;
                 if (dir.Length > prefLen)
-                    namespaceName = $"{namespaceName}.{ConvertToPascalCase(dir.Substring(prefLen).Replace('\\', '/').Replace('/', '.').Replace("-", ""))}";
+                    namespaceName = $"{namespaceName}.{dir.Substring(prefLen).Replace('\\', '/').Replace('/', '.').Replace("-", "")}";
 
+                //isCsContainsNamespace ? 
+                var matchNamespace= await MainWindow.GetRegexpResultFromFileAsync(file + ".cs", "namespace\\s+([a-zA-Z_][a-zA-Z0-9_]*(\\.[a-zA-Z_][a-zA-Z0-9_]*)*)\r\n");
+                bool isCsContainsNamespace = matchNamespace.Success;
+                //GetBanespace from cs file
+                if (isCsContainsNamespace) {
+                    namespaceName = matchNamespace.Groups[1].Value;
+                }
                 Encoding encoding = GetFileEncoding(file);
 
                 StringBuilder sb = new StringBuilder();
@@ -125,7 +134,7 @@ namespace ConsoleApp1
                                     anotationLines = $"{anotationLines} %>";
                             }
                                 
-
+                            //Replace or insert to aspx
                             if (anotationLines.Contains("Inherits", StringComparison.OrdinalIgnoreCase) &&
                                 anotationLines.Contains("Language", StringComparison.OrdinalIgnoreCase) && 
                                 !anotationBegin &&
@@ -133,19 +142,23 @@ namespace ConsoleApp1
                             {
                                 var keyPaser = anotationLines.Replace(" =", "=").Replace("= ", "=").Split(' ', StringSplitOptions.RemoveEmptyEntries);
                                 anotationLines = "";
-                                List<string> tmpList = new List<string>();
 
-                                for (int i = 0; i < keyPaser.Length; i++)
-                                {
-                                    if (keyPaser[i].Contains("Inherits", StringComparison.OrdinalIgnoreCase))
+                                if (!isCsContainsNamespace) {//If cs class containing namecpace, no need to modify
+                                    
+                                    List<string> tmpList = new List<string>();
+
+                                    for (int i = 0; i < keyPaser.Length; i++)
                                     {
-                                        var val = keyPaser[i].Split('=', StringSplitOptions.RemoveEmptyEntries);
-                                        keyPaser[i] = $"{val[0]}=\"{namespaceName}.{className}\"";
-                                    }
+                                        if (keyPaser[i].Contains("Inherits", StringComparison.OrdinalIgnoreCase))
+                                        {
+                                            var val = keyPaser[i].Split('=', StringSplitOptions.RemoveEmptyEntries);
+                                            keyPaser[i] = $"{val[0]}=\"{namespaceName}.{className}\"";
+                                        }
 
-                                    if(keyPaser[i].Contains("Title", StringComparison.OrdinalIgnoreCase))
-                                    {
+                                        if (keyPaser[i].Contains("Title", StringComparison.OrdinalIgnoreCase))
+                                        {
 
+                                        }
                                     }
                                 }
 
@@ -167,16 +180,17 @@ namespace ConsoleApp1
                                     //            tmp = tmp + Environment.NewLine + "   ";
                                     //            outRow++;
                                     //        }
-                                                
+
                                     //    }
                                     //}
-                                    
+
                                     sb.AppendLine(tmp);
                                 }
-                                    
 
-                                if(line.Contains("<%@", StringComparison.OrdinalIgnoreCase) && row > 1)
+
+                                if (line.Contains("<%@", StringComparison.OrdinalIgnoreCase) && row > 1)
                                     sb.AppendLine(line);
+
                             }
                             else
                             {

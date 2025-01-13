@@ -263,7 +263,13 @@ namespace ScriptSimpleAdder
             return files;
         }
 
-        public async Task<Match> GetRegexpResultFromFileAsync(string file, string regexStr) {
+        public static async Task<Match> GetRegexpResultFromFileAsync(string file, string regexStr) {
+            if (!File.Exists(file))
+            {
+                file = AddWebFormNameSpaces.FindFileIgnoreCase(file);
+                if (!File.Exists(file)) return null;
+            }
+
             using (StreamReader sr = new StreamReader(file))
             {
                 string content = await sr.ReadToEndAsync();
